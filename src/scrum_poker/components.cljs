@@ -1,6 +1,17 @@
 (ns scrum_poker.components
-  (:require [scrum_poker.state :as state]))
+  (:require [scrum_poker.state :refer [getCards selectedCardId changeSelectedCardId]]))
 
-(defn card [name] [:h1 name])
+(defn card
+  [id name onSelect isSelected]
+  [:h1 {:key name :on-click (fn [] (onSelect id))} id (if isSelected "Selected" "")])
 
-(defn cards [] [:div (map (fn [c] (card (:name c))) (vals @state/cardsByIds))])
+(defn cards
+  [allCards selectedCardId changeSelectedCardId]
+  [:div
+   (map (fn [c]
+          (card (:id c) (:name c) (fn [id] (changeSelectedCardId id)) (= (:id c) selectedCardId)))
+        allCards)])
+
+(defn app
+  []
+  [:div.container (cards (getCards) @selectedCardId changeSelectedCardId)])

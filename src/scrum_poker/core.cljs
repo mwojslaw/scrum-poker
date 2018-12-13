@@ -1,10 +1,6 @@
 (ns scrum_poker.core
   (:require [reagent.core :as r]
-            [scrum_poker.components :refer [cards]]))
-
-(defn app
-  []
-  [:div.container [cards]])
+            [scrum_poker.components :refer [app]]))
 
 (defn ^:export main
   []
